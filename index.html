@@ -1,0 +1,117 @@
+<html lang=en>
+<head>
+<meta charset=utf-8>
+    <title>Javascript gravity</title>
+    </head>
+    <body onload="init()">
+ 
+ 
+<script>
+        var canvas, ctx, container;
+         canvas = document.createElement( 'canvas' );
+          ctx = canvas.getContext("2d");
+    var ball;
+
+ const keys = [];
+    // Velocity x
+     var vx = 20;
+    // Velocity y - randomly set
+    var vy;
+    var golpe = 40;
+    var gravity = 0.9;  
+    var bounce = 0.7; 
+    var xFriction = 0.7;
+ 
+    function init(){
+       setupCanvas();
+      vy = -10;
+        ball = {x:canvas.width / 2, y:100, radius:20, status: 0,   color:"red"};
+        cuadrado = {x:1, y:300,color:"red"};
+    }//end init method
+ 
+    function draw() {
+        ctx.clearRect(0,0,canvas.width, canvas.height); 
+
+             //draw cirlce
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2, false);
+            ctx.fillStyle = ball.color;
+            ctx.fill();
+            ctx.closePath();
+            ctx.fillStyle = 'rgb(200, 0, 0)';
+             ctx.fillRect(cuadrado.x, cuadrado.y,2000, 1);
+        ballMovement();
+ 
+    }
+ 
+    setInterval(draw, 1000/35); 
+ 
+    function ballMovement(){
+        ball.x += vx;
+        ball.y += vy;
+        vy += gravity;
+        
+        //If either wall is hit, change direction on x axis
+        if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0){
+            vx *= -1;
+        } 
+        if(ball.y+ball.radius > cuadrado.y && ball.x - ball.radius > cuadrado.x &&  ball.x + ball.radius < cuadrado.x+2000&&vy>0){ vy *= -bounce;
+        xF();if(vy<0 && vy>-2.1)
+                         vy=0;
+                         if(Math.abs(vx)<1.1)
+                 vx=0;}
+        
+          
+          
+          
+          // Ball hits the floor
+        if (ball.y + ball.radius > canvas.height){// ||
+          
+            // Re-positioning on the base
+           ball.y = canvas.height - ball.radius;
+            //bounce the ball
+              vy *= -bounce;
+            //do this otherwise, ball never stops bouncing
+              if(vy<0 && vy>-2.1)
+                         vy=0;
+            //do this otherwise ball never stops on xaxis
+             if(Math.abs(vx)<1.1)
+                 vx=0;
+       
+             xF();
+             
+    }
+        
+        
+    }
+    
+    function xF(){
+             if(vx>0)
+                 vx = vx - xFriction;
+             if(vx<0)
+                 vx = vx + xFriction;
+    }
+    
+    
+    
+    
+    
+ 
+     function setupCanvas() {//setup canvas
+ 
+ 
+	container = document.createElement( 'div' );
+	container.className = "container";
+ 
+	canvas.width = window.innerWidth; 
+	canvas.height = window.innerHeight; 
+	document.body.appendChild( container );
+	container.appendChild(canvas);	
+ 
+	ctx.strokeStyle = "#ffffff";
+	ctx.lineWidth =2;	
+}
+ 
+        </script>
+    </body>
+</html>
